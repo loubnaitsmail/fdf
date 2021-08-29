@@ -30,7 +30,7 @@ typedef struct	s_point
 
 typedef struct	s_fdf
 {
-	t_point		**original_map;
+	int			**original_map;
 	t_point		**map;
 	t_mlx		*mlx;
 	int			x_max;
