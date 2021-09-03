@@ -2,6 +2,11 @@
 #define _FDF_H
 
 #include <mlx.h>
+#include <fcntl.h>
+#include "libft/get_next_line.h"
+#include "libft/libft.h"
+#include <stdio.h>
+#include <string.h>
 
 typedef struct	s_img
 {
@@ -36,6 +41,12 @@ typedef struct	s_fdf
 	int			x_max;
 	int			y_max;
 }				t_fdf;
+
+
+	int		count_nbr_str(char *line);
+	int *fill_tab(char *line);
+	t_fdf	*parsing_map(t_fdf *fdf, const char *file);
+
 
 
 #endif

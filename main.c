@@ -1,7 +1,5 @@
 
 #include "fdf.h"
-#include <string.h>
-#include <stdio.h>
 
 #define WIDTH 700
 #define HEIGHT 700
@@ -32,7 +30,12 @@ int		main(int argc, const char *argv[])
 	}*/
 
 	initialise(&fdf, &mlx, &img);
-	//parsing_map();
+	if (!parsing_map(&fdf, argv[1]))
+	{
+		printf("Error Parsing Map");
+		return(0);
+	}
+	//draw_line(&fdf);
 	mlx_loop(mlx.mlx_ptr);
-
+	return(0);
 }

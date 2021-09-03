@@ -45,10 +45,12 @@ int *fill_tab(char *line)
 			i++;
 		j++;
 	}
+
 	int x;
 	for(x = 0; x < size_tab; x++)
 		printf("%2d ", tab[x]);
 	printf("\n");
+
 	return (tab);
 }
 
@@ -59,16 +61,15 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 
 	fd = open(file, O_RDONLY);
 	fdf->y_max = 0;
-	if (fd < 0 || read(fd, 0x0, 0) == -1)
-		return (0x0);
-	while (get_next_line(fd, &line) > 0
-			&& fdf->y_max < BUFFER_MAP)
+	if (fd < 0 || read(fd, NULL, 0) == -1)
+		return (NULL);
+	while (get_next_line(fd, &line) > 0 && fdf->y_max < BUFFER_MAP)
 	{
 		if (fdf->y_max == 0)
 			fdf->original_map = (int **) ft_memalloc(sizeof(int *) * (BUFFER_MAP + 1));
 		//printf("%s\n", line);
 		fdf->original_map[fdf->y_max] = fill_tab(line);
-		fdf->y_max ++;
+		fdf->y_max++;
 		free(line);
 	}
 	if (line)
@@ -77,12 +78,13 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 	return (fdf);
 }
 
+/*
 int main(int argc, const char *argv[])
 {
 	t_fdf fdf;
 	if (argc != 2)
 	{
-		printf("erreur argc");
+		printf("erreur argc\n");
 		return 1;
 	}
 
@@ -90,4 +92,4 @@ int main(int argc, const char *argv[])
 	parsing_map(&fdf, argv[1]);
 	// fre fdf.map
 	return 0;
-}
+}*/
