@@ -40,13 +40,15 @@ typedef struct	s_fdf
 	t_mlx		*mlx;
 	int			x_max;
 	int			y_max;
+	double		x_origin;
+	double		y_origin;
+	int			zoom;
 }				t_fdf;
 
 
 	int		count_nbr_str(char *line);
-	int *fill_tab(char *line);
+	int *fill_tab(char *line, t_fdf *fdf);
 	t_fdf	*parsing_map(t_fdf *fdf, const char *file);
-
-
+	void	draw(t_fdf *fdf);
 
 #endif

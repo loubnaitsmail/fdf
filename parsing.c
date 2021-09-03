@@ -1,8 +1,4 @@
 #include "fdf.h"
-#include <fcntl.h>
-#include "libft/get_next_line.h"
-#include "libft/libft.h"
-#include <stdio.h>
 
 #define		BUFFER_MAP 128
 
@@ -25,7 +21,7 @@ int		count_nbr_str(char *line)
 	return (size);
 }
 
-int *fill_tab(char *line)
+int *fill_tab(char *line, t_fdf *fdf)
 {
 	int			*tab;
 	int			i;
@@ -45,6 +41,7 @@ int *fill_tab(char *line)
 			i++;
 		j++;
 	}
+	 fdf->x_max = size_tab;
 
 	int x;
 	for(x = 0; x < size_tab; x++)
@@ -68,7 +65,7 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 		if (fdf->y_max == 0)
 			fdf->original_map = (int **) ft_memalloc(sizeof(int *) * (BUFFER_MAP + 1));
 		//printf("%s\n", line);
-		fdf->original_map[fdf->y_max] = fill_tab(line);
+		fdf->original_map[fdf->y_max] = fill_tab(line, fdf);
 		fdf->y_max++;
 		free(line);
 	}
