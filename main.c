@@ -3,7 +3,7 @@
 
 #define WIDTH 700
 #define HEIGHT 700
-#define QUIT 0
+#define QUIT 12
 #define ESC 53
 
 void	free_all(t_fdf *fdf)
@@ -15,18 +15,13 @@ void	free_all(t_fdf *fdf)
 	mlx = fdf->mlx;
 	while (i < fdf->y_max)
 	{
-		if (fdf->map[i])
-			free(fdf->map[i]);
-		if (fdf->original_map)
+		if (fdf->original_map[i])
 			free(fdf->original_map[i]);
 		i++;
 	}
-	if (fdf->map)
-		free(fdf->map);
 	if (fdf->original_map)
 		free(fdf->original_map);
 	fdf->mlx = NULL;
-
 }
 
 int		quit_event(int key, t_fdf *fdf)
@@ -36,6 +31,10 @@ int		quit_event(int key, t_fdf *fdf)
 		mlx_destroy_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
 		free_all(fdf);
 		exit(0);
+	}
+	else
+	{
+		printf("key == %d\n", key);
 	}
 	return (1);
 }
@@ -47,8 +46,10 @@ void	initialise(t_fdf *fdf, t_mlx *mlx, t_img *img)
 	fdf->zoom = 21;
 	mlx->mlx_ptr = mlx_init();
 	img->img_ptr = mlx_new_image(mlx->mlx_ptr, img->width, img->height);
-	img->addr_img = mlx_get_data_addr(img->img_ptr, &(img->bits_per_pixels), &(img->line_length), &(img->endian));
-	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, img->width, img->height, "titre window");
+	img->addr_img = (unsigned int* )mlx_get_data_addr(img->img_ptr,
+			&(img->bits_per_pixels), &(img->line_length), &(img->endian));
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, img->width, img->height, 
+			"titre window");
 	mlx->img_mlx = img;
 	fdf->mlx = mlx;
 }

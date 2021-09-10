@@ -10,14 +10,14 @@
 
 typedef struct	s_img
 {
-	void*		img_ptr;
-	char*		addr_img;
-	int			height;
-	int			width;
-	int			bits_per_pixels;
-	int			line_length;
-	int			endian;
-}				t_img;
+	void*			img_ptr;
+	unsigned int*	addr_img;
+	int				height;
+	int				width;
+	int				bits_per_pixels;
+	int				line_length;
+	int				endian;
+}					t_img;
 
 typedef struct	s_mlx
 {
