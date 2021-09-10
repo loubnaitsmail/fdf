@@ -1,80 +1,54 @@
 #include "fdf.h"
-
-void	bressan_draw(t_fdf *image, int x0, int y0, int x1, int y1)
-{
-	//  p0.x => x0 , p0.y = y, t_point p1)
-	int		dx;
-	int		dy;
-	int		erreur;
-	int		diff_y;
-
-	diff_y = 1;
-	if (p0.y > p1.y)
-		diff_y =-1;
-
-	dx = (p1.x - p0.x) * 2;
-	dy = (p1.y - p0.x) * 2;
-	erreur = (p1.x - p0.x) * diff_y;
-	while (p0.x < p1.x)
-	{
-		//put_pixels(image, p0.x, p0.y);
-		erreur -= (dy *diff_y);
-		while( erreur <= 0)
-		{
-			p0.y += diff_y;
-			erreur += dx;
-			//put_pixels(image, p0.x, p0.y);
-		}
-		p0.x += 1;
-		while (p0.y != p1.y)
-		{
-		//	put_pixels(image, p0.x, p0.y);
-			if (p0.y < p1.y)
-				p0.y++;
-			else
-				p0.y--;
-		}
-	}
-}
+#define EPAISSEUR 5
 
 void	put_pixels(t_img *image, int x, int y)
 {
-	
+	//printf("je put pixel\n");
+	//if ( y >= 0 && x >= 0 && y < image->height && x < image->width)
+	{
 			image->addr_img[y * image->line_length + x * 4] = 0xff;
 			image->addr_img[y * image->line_length + x * 4 + 1] = 0xff;
 			image->addr_img[y * image->line_length + x * 4 + 2] = 0Xff;
 			image->addr_img[y * image->line_length + x * 4 + 3] = 0;
+	}
 }
 
-#define EPAISSEUR 5
-void	draw_points(t_fdf *fdf, t_img *image)
+void	bressan_draw(t_img *image, int x0, int y0, int x1, int y1, int diff_y)
 {
-	int		x;
-	int		y;
+	int		dx;
+	int		dy;
+	int		erreur;
 
-
-	printf("resulta x %lf widtj pas %f \n", fdf->x_origin, (double)700 / fdf->zoom);
-	ft_bzero(image->addr_img, image->line_length * image->height);
-	y = 0;
-	while (y < fdf->y_max)
+	if (x0 > x1)
 	{
-		x = 0;
-		while (x < fdf->x_max)
+		bressan_draw(image, x1, y1, x0, y0, diff_y *-1);
+		return;
+	}
+
+	dx = (x1 - x0) * 2;
+	dy = (y1 - y0) * 2;
+	erreur = (x1 - x0) * diff_y;
+	while (x0 < x1)
+	{
+		put_pixels(image, x0, y0);
+		erreur -= (dy *diff_y);
+		while (erreur <= 0)
 		{
-			for (int bonus = 0; bonus < EPAISSEUR ; bonus++)
-			{
-				if (x == 1)
-				{
-					printf("new x %d\n", (x - fdf->x_origin) * fdf->zoom);
-				}
-			put_pixels(image, (x - fdf->x_origin) * fdf->zoom, (y - fdf->y_origin) * fdf->zoom); // x0, y0 
-			put_pixels(image, (x - fdf->x_origin) * fdf->zoom + bonus, (y - fdf->y_origin) * fdf->zoom);
-			put_pixels(image, (x - fdf->x_origin) * fdf->zoom, (y - fdf->y_origin) * fdf->zoom + bonus);
-			put_pixels(image, (x - fdf->x_origin) * fdf->zoom + bonus, (y - fdf->y_origin) * fdf->zoom + bonus);
-			}
-			x++;
+			y0 += diff_y;
+			erreur += dx;
+			put_pixels(image, x0, y0);
+			//printf("1- je put pixel\n");
 		}
-		y++;
+		x0 += 1;
+		while (y0 != y1)
+		{
+			put_pixels(image, x0, y0);
+			//printf("2- je put pixel\n");
+			if (y0 < y1)
+				y0++;
+			else
+				y0--;
+		}
 	}
 }
 
@@ -86,8 +60,10 @@ void	link_points(t_fdf *fdf)
 	int			y0;
 	int			x1;
 	int			y1;
+	int			diff_y;	
 
 	y = 0;
+	diff_y = 1;
 	while (y < fdf->y_max)
 	{
 		x = 0;
@@ -95,22 +71,56 @@ void	link_points(t_fdf *fdf)
 		{
 			x0 = (x - fdf->x_origin) * fdf->zoom;
 			y0 = (y - fdf->y_origin) * fdf->zoom;
+			//printf("x0 = %d et y0 = %d\n", x0, y0);
 			if (x > 0)
 			{
-				x1 = (x - 1 -fdf->x_origin) * fdf->zoom;
+				x1 = (x - 1 - fdf->x_origin) * fdf->zoom;
 				y1 = (y - fdf->y_origin) * fdf->zoom;
-				//p.x = x0
-				bressan_draw(fdf, x0, y0, x1, y1;// x0, y0 x1 y1
+				//printf(" x1 = %d et y1 = %d\n",x1,y1);
+				if (y0 > y1)
+					diff_y =-1;
+				bressan_draw(fdf->mlx->img_mlx, x0, y0, x1, y1, diff_y); //la mm chose
 			}
 			if (y > 0)
 			{
 				x1 = (x - fdf->x_origin) * fdf->zoom;
 				y1 = (y - 1 - fdf->y_origin) * fdf->zoom;
-				bressan_draw(fdf, fdf->map[y - 1][x], fdf->map[y][x]); //la mm chose
+				//printf("if y > 0 ->  x1 = %d et y1 = %d\n", x1 ,y1);
+				if (y0 > y1)
+					diff_y =-1;
+				bressan_draw(fdf->mlx->img_mlx, x0, y0, x1, y1, diff_y);
 			}
 			x++;
 		}
 		y++;
+	}
+}
+
+void	draw_points(t_fdf *fdf, t_img *image)
+{
+	int			i;
+	int			j;
+	int			x;
+	int			y;
+
+	ft_bzero(image->addr_img, image->line_length * image->height);
+	i = 0;
+	while (i < fdf->y_max)
+	{
+		 j = 0;
+		while ( j < fdf->x_max)
+		{
+			//point = &(fdf->map[i][j]);
+			//p.x = point->x * fdf->zoom;
+			//p.y = point->y * fdf->zoom;
+			x = (j - fdf->x_origin) * fdf->zoom;
+			y = (i - fdf->y_origin) * fdf->zoom;
+			//printf("hello\n");
+			put_pixels(image, x, y);
+			//put_pixels(image, (x - fdf->x_origin) * fdf->zoom, (y - fdf->y_origin) * fdf->zoom);
+			j++;
+		}
+		i++;
 	}
 }
 
@@ -139,15 +149,14 @@ void information(t_fdf *fdf)
 
 }
 
-
 void	draw(t_fdf *fdf)
 {
 	t_mlx	*mlx;
 	mlx = fdf->mlx;
 	mlx_clear_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
 	draw_points(fdf, mlx->img_mlx);
-	information(fdf);
-	//link_points(fdf);
+	//information(fdf);
+	link_points(fdf);
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_mlx->img_ptr, 0, 0);
 
 }
