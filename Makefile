@@ -9,13 +9,14 @@ SRCS = draw_line.c main.c parsing.c projection.c
 
 OBJ = $(addprefix srcs/, $(patsubst %.c, %.o, $(SRCS)))
 
-CFLAGS =  -Iinclude -framework OpenGL -framework AppKit -I../minilibx_macos
+CFLAGS = -fsanitize=address -Iinclude -framework OpenGL -framework AppKit -Iminilibx_macos libmlx.a
 
 #CFLAGS = -Wall -lmlx -lXext -lX11 -lm -lbsd  -Lminilibx-linux -L$(INC) $(INCLUDE)
 
 all: $(NAME)
 
 $(NAME):	$(OBJ)
+			make -C minilibx_macos
 			mkdir -p $(DIR_OBJ)
 			gcc -o $(NAME) $(OBJ) $(CFLAGS) libft.a
 			mv $(OBJ) $(DIR_OBJ)

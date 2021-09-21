@@ -1,14 +1,14 @@
 #include "fdf.h"
 
-void	iso(int x, int y, int z)
+void	iso(t_point *p)
 {
-    int	previous_x;
-    int	previous_y;
+    double	previous_x;
+    double	previous_y;
 
-    previous_x = x;
-    previous_y = y;
-    x = (previous_x - previous_y) * cos(0.523599);
-    y = -z + (previous_x + previous_y) * sin(0.523599);
+    previous_x = p->x;
+    previous_y = p->y;
+    p->x = (previous_x - previous_y) * cos(0.523599);
+    p->y = - p->z + (previous_x + previous_y) * sin(0.523599);
 }
 
 void	change_to_iso(t_fdf *fdf)
@@ -22,7 +22,7 @@ void	change_to_iso(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->x_max)
 		{	
-			iso(i, j, fdf->original_map[i][j]);
+			iso(&(fdf->map[i][j]));
 			j++;
 		}
 		i++;
@@ -34,12 +34,20 @@ void	change_to_iso(t_fdf *fdf)
 	if (fdf->projection == ISOMETRIC)
 	{
 		fdf->projection = PARALLELE;
+		for (int i = 0; i <  fdf->y_max ; i++)
+		{
+			for (int j = 0; j < fdf->x_max ; j++)
+			{
+				fdf->map[i][j].y = i;
+				fdf->map[i][j].x = j;
+				fdf->map[i][j].z = fdf->original_map[i][j];
+			}
+		}
 	}
 	else if (fdf->projection == PARALLELE)
 	{
 		fdf->projection = ISOMETRIC;
 		change_to_iso(fdf);
-		draw(fdf);
 	}
 	/*else
 	{

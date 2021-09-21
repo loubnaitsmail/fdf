@@ -32,10 +32,21 @@ int		key_events(int key, void *param)
 		free_all(fdf);
 		exit (0);
 	}
+	if (DEBUG > 0)
 		printf("key == %d\n", key);
-
 	if (key == CHANGE_PROJECTION)
 		change_projection(fdf);
+	else if (key == RIGHT)
+		fdf->x_origin -= 4;
+	else if (key == LEFT)
+		fdf->x_origin += 4;
+	else if (key == UP)
+		fdf->y_origin += 4;
+	else if (key == DOWN)
+		fdf->y_origin -= 4;
+	else
+		return (0);
+	draw(fdf);
 	return (1);
 }
 
@@ -52,6 +63,7 @@ void	initialise(t_fdf *fdf, t_mlx *mlx, t_img *img)
 			"titre window");
 	mlx->img_mlx = img;
 	fdf->mlx = mlx;
+	fdf->projection = PARALLELE;
 }
 
 int		main(int argc, const char *argv[])

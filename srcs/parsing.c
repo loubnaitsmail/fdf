@@ -5,15 +5,19 @@ int		count_nbr_str(char *line)
 	int		i;
 	int		size;
 
-	i = -1;
+	i = 0;
 	size = 0;
-	while (line[++i])
+	while (line[i])
 	{
 		if(line[i] >= '0' && line[i] <= '9')
 		{
 			size++;
 			while (line[i] >= '0' && line[i] <= '9')
 				i++;
+		}
+		else
+		{
+			i++;
 		}
 	}
 	return (size);
@@ -28,6 +32,7 @@ int		*fill_tab(char *line, t_fdf *fdf)
 
 	i = 0;
 	j = 0;
+
 	size_tab = count_nbr_str(line) + 1;
 	tab = (int *)ft_memalloc(sizeof(int) * (size_tab + 1));
 	while (line[i] && j < size_tab + 1)
@@ -68,12 +73,6 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 		free(line);
 	}
 
-	/*int x;
-	for(x = 0; x < fdf->x_max; x++)
-	{
-		for(int y = 0; y < fdf->y_max; y++)
-y			printf("%2d ", fdf->original_map[x][y]);
-	}*/
 	printf("%2d ", fdf->original_map[3][3]);
 	printf("%2d ", fdf->original_map[4][4]);
 	printf("\n");
@@ -81,6 +80,17 @@ y			printf("%2d ", fdf->original_map[x][y]);
 	if (line)
 		free(line);
 	// sorti boucle soit erreur (gnl < 0) ou teminer (gnl == 0)
+	fdf->map = (t_point **)ft_memalloc(sizeof(t_point*) * (fdf->y_max + 1));
+	for (int i = 0; i <  fdf->y_max ; i++)
+	{
+		fdf->map[i] = ft_memalloc(sizeof(t_point) * (fdf->x_max + 1));
+		for (int j = 0; j < fdf->x_max ; j++)
+		{
+			fdf->map[i][j].y = i;
+			fdf->map[i][j].x = j;
+			fdf->map[i][j].z = fdf->original_map[i][j];
+		}
+	}
 	return (fdf);
 }
 

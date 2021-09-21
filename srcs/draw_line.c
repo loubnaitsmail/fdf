@@ -42,11 +42,13 @@ void	bressan_draw(t_img *image, int x0, int y0, int x1, int y1, int diff_y)
 			else
 				y0--;
 		}
+
 	}
 	while (y0 != y1)
 	{
 		y0 += diff_y;
 		put_pixels(image, x0, y0);
+
 	}
 }
 
@@ -67,22 +69,22 @@ void	link_points(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->x_max)
 		{
-			x0 = (x - fdf->x_origin) * fdf->zoom;
-			y0 = (y - fdf->y_origin) * fdf->zoom;
+			x0 = (fdf->map[y][x].x - fdf->x_origin) * fdf->zoom;
+			y0 = (fdf->map[y][x].y - fdf->y_origin) * fdf->zoom;
 			//printf("x0 = %d et y0 = %d\n", x0, y0);
 			if (x > 0)
 			{
-				x1 = (x - 1 - fdf->x_origin) * fdf->zoom;
-				y1 = y0;
+				x1 = (fdf->map[y][x - 1].x - fdf->x_origin) * fdf->zoom;
+				y1 = (fdf->map[y][x - 1].y - fdf->y_origin) * fdf->zoom;;
 				//printf(" x1 = %d et y1 = %d\n",x1,y1);
 				if (y0 > y1)
-					diff_y =-1;
+					diff_y = -1;
 				bressan_draw(fdf->mlx->img_mlx, x0, y0, x1, y1, diff_y); //la mm chose
 			}
 			if (y > 0)
 			{
-				x1 = x0;
-				y1 = (y - 1 - fdf->y_origin) * fdf->zoom;
+				x1 = (fdf->map[y - 1][x].x - fdf->x_origin) * fdf->zoom;
+				y1 = (fdf->map[y - 1][x].y - fdf->y_origin) * fdf->zoom;
 				//printf("if y > 0 ->  x1 = %d et y1 = %d\n", x1 ,y1);
 				if (y0 > y1)
 					diff_y =-1;
@@ -102,7 +104,6 @@ void	draw_points(t_fdf *fdf, t_img *image)
 	int			y;
 
 	ft_bzero(image->addr_img, image->line_length * image->height);
-	printf("j ai  bzero\n");
 	i = 0;
 	while (i < fdf->y_max)
 	{
@@ -112,8 +113,8 @@ void	draw_points(t_fdf *fdf, t_img *image)
 			//point = &(fdf->map[i][j]);
 			//p.x = point->x * fdf->zoom;
 			//p.y = point->y * fdf->zoom;
-			x = (j - fdf->x_origin) * fdf->zoom;
-			y = (i - fdf->y_origin) * fdf->zoom;
+			x = (fdf->map[i][j].x - fdf->x_origin) * fdf->zoom;
+			y = (fdf->map[i][j].y - fdf->y_origin) * fdf->zoom;
 			//printf("hello\n");
 			put_pixels(image, x, y);
 			//put_pixels(image, (x - fdf->x_origin) * fdf->zoom, (y - fdf->y_origin) * fdf->zoom);
@@ -121,7 +122,6 @@ void	draw_points(t_fdf *fdf, t_img *image)
 		}
 		i++;
 	}
-	printf("j ai draw point bzero\n");
 }
 
 /*void information(t_fdf *fdf)
@@ -153,9 +153,12 @@ void	draw(t_fdf *fdf)
 {
 	t_mlx	*mlx;
 	mlx = fdf->mlx;
+
 	mlx_clear_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
 	draw_points(fdf, mlx->img_mlx);
 	//information(fdf);
 	link_points(fdf);
+	bressan_draw(mlx->img_mlx, 0, 0, 42, 42, 1);
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_mlx->img_ptr, 0, 0);
+
 }
