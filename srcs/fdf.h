@@ -19,7 +19,8 @@
 #define UP 126
 #define DOWN 125
 #define LEFT 123
-
+#define BIGGER 11
+#define SMALLER 1
 #define CHANGE_PROJECTION 35
 #define DEBUG 0
 

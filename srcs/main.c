@@ -37,13 +37,17 @@ int		key_events(int key, void *param)
 	if (key == CHANGE_PROJECTION)
 		change_projection(fdf);
 	else if (key == RIGHT)
-		fdf->x_origin -= 4;
-	else if (key == LEFT)
 		fdf->x_origin += 4;
+	else if (key == LEFT)
+		fdf->x_origin -= 4;
 	else if (key == UP)
-		fdf->y_origin += 4;
-	else if (key == DOWN)
 		fdf->y_origin -= 4;
+	else if (key == DOWN)
+		fdf->y_origin += 4;
+	else if (key == BIGGER  && fdf->zoom < fdf->mlx->img_mlx->width)
+		fdf->zoom+=5;
+	else if (key == SMALLER && fdf->zoom > 5)
+		fdf->zoom-=5;
 	else
 		return (0);
 	draw(fdf);
@@ -54,7 +58,7 @@ void	initialise(t_fdf *fdf, t_mlx *mlx, t_img *img)
 {
 	img->width = WIDTH;
 	img->height = HEIGHT;
-	fdf->zoom = 21;
+	fdf->zoom = 30;
 	mlx->mlx_ptr = mlx_init();
 	img->img_ptr = mlx_new_image(mlx->mlx_ptr, img->width, img->height);
 	img->addr_img = (unsigned int* )mlx_get_data_addr(img->img_ptr,

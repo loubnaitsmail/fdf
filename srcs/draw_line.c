@@ -3,10 +3,10 @@
 void	put_pixels(t_img *image, int x, int y)
 {
 	if (y >= 0 && x >= 0 && y < image->height && x < image->width)
-		image->addr_img[y * image->width + x] = 0x00ff00ff;
+		image->addr_img[y * image->width + x] = 0x0000ff00;
 }
 
-void	draw_vertical_lines(t_img *image, t_point p0, t_point p1)
+/*void	draw_vertical_lines(t_img *image, t_point p0, t_point p1)
 {
 
 	int		x0;
@@ -28,7 +28,7 @@ void	draw_vertical_lines(t_img *image, t_point p0, t_point p1)
 	}
 }
 
-/*void	draw_horiz_lines(t_img *image, t_point p0, t_point p1, int diff_y)
+void	draw_horiz_lines(t_img *image, t_point p0, t_point p1, int diff_y)
 {
 	int		dx;
 	int		dy;
@@ -46,9 +46,9 @@ void	draw_vertical_lines(t_img *image, t_point p0, t_point p1)
 		put_pixels(image, p0.x, p0.y);
 	}
 	p0.x += 1;
-}*/
+}
 
-/*void	bressan_draw(t_img *image, t_point p0, t_point p1, int diff_y)
+void	bressan_draw(t_img *image, t_point p0, t_point p1, int diff_y)
 {
 	int		dx;
 	int		dy;
@@ -95,7 +95,7 @@ void	my_bressan_draw(t_img *image, int x1, int y1, int x2, int y2)
 	if (y1>y2)
 		Yincr = -1;
 	//1cas
-	printf("Dx = %d et Dy = %d\n", Dx, Dy);
+	//printf("Dx = %d et Dy = %d\n", Dx, Dy);
 	if (Dx > Dy)
 	{
 		while (i <= Dx)
@@ -112,7 +112,7 @@ void	my_bressan_draw(t_img *image, int x1, int y1, int x2, int y2)
 		}
 	}
 	//2cas
-	if (Dx < Dy)
+	if (Dx <= Dy)
 	{
 		while (i <= Dy)
 		{
@@ -122,17 +122,11 @@ void	my_bressan_draw(t_img *image, int x1, int y1, int x2, int y2)
 			ey -= dx;
 			if (ey < 0)
 			{
-				x1 += Yincr;
+				x1 += Xincr;
 				ey += dy;
 			}
 		}
 	}
-	if (Dy == Dx)
-		printf("Cas Dy == Dx\n");
-	if (Dy == 0)
-		printf("Cas Dy = 0\n");
-	if (Dx == 0)
-		printf("Cas Dx = 0\n");
 	
 
 	//cas Dy = 0 
@@ -225,6 +219,8 @@ void	draw_points(t_fdf *fdf, t_img *image)
 
 void	draw(t_fdf *fdf)
 {
+
+	printf("zoom = %d\n", fdf->zoom);
 	t_mlx	*mlx;
 
 	mlx = fdf->mlx;

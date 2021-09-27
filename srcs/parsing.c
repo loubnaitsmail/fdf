@@ -46,10 +46,10 @@ int		*fill_tab(char *line, t_fdf *fdf)
 	}
 	 fdf->x_max = size_tab;
 
-	int x;
+	/*int x;
 	for(x = 0; x < size_tab; x++)
 		printf("%2d ", tab[x]);
-	printf("\n");
+	printf("\n");*/
 
 	return (tab);
 }
@@ -73,9 +73,9 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 		free(line);
 	}
 
-	printf("%2d ", fdf->original_map[3][3]);
-	printf("%2d ", fdf->original_map[4][4]);
-	printf("\n");
+	//printf("%2d ", fdf->original_map[3][3]);
+	//printf("%2d ", fdf->original_map[4][4]);
+	//printf("\n");
 
 	if (line)
 		free(line);
@@ -83,7 +83,7 @@ t_fdf	*parsing_map(t_fdf *fdf, const char *file)
 	fdf->map = (t_point **)ft_memalloc(sizeof(t_point*) * (fdf->y_max + 1));
 	for (int i = 0; i <  fdf->y_max ; i++)
 	{
-		fdf->map[i] = ft_memalloc(sizeof(t_point) * (fdf->x_max + 1));
+		fdf->map[i] = (t_point *)ft_memalloc(sizeof(t_point) * (fdf->x_max + 1));
 		for (int j = 0; j < fdf->x_max ; j++)
 		{
 			fdf->map[i][j].y = i;
