@@ -1,4 +1,3 @@
-
 #include "fdf.h"
 
 void	free_all(t_fdf *fdf)
@@ -19,6 +18,24 @@ void	free_all(t_fdf *fdf)
 	fdf->mlx = NULL;
 }
 
+void	key_move(int key, t_fdf *fdf)
+{
+	if (key == RIGHT)
+		fdf->x_origin += 4;
+	else if (key == LEFT)
+		fdf->x_origin -= 4;
+	else if (key == UP)
+		fdf->y_origin -= 4;
+	else if (key == DOWN)
+		fdf->y_origin += 4;
+	else if (key == BIGGER  && fdf->zoom < fdf->mlx->img_mlx->width)
+		fdf->zoom+=5;
+	else if (key == SMALLER && fdf->zoom > 5)
+		fdf->zoom-=5;
+	else
+		printf("erreur key");;
+}
+
 int		key_events(int key, void *param)
 {
 	t_fdf	*fdf;
@@ -32,24 +49,9 @@ int		key_events(int key, void *param)
 		free_all(fdf);
 		exit (0);
 	}
-	if (DEBUG > 0)
-		printf("key == %d\n", key);
 	if (key == CHANGE_PROJECTION)
 		change_projection(fdf);
-	else if (key == RIGHT)
-		fdf->x_origin += 4;
-	else if (key == LEFT)
-		fdf->x_origin -= 4;
-	else if (key == UP)
-		fdf->y_origin -= 4;
-	else if (key == DOWN)
-		fdf->y_origin += 4;
-	else if (key == BIGGER  && fdf->zoom < fdf->mlx->img_mlx->width)
-		fdf->zoom+=5;
-	else if (key == SMALLER && fdf->zoom > 5)
-		fdf->zoom-=5;
-	else
-		return (0);
+	key_move(key, fdf);
 	draw(fdf);
 	return (1);
 }
@@ -84,7 +86,7 @@ int		main(int argc, const char *argv[])
 	initialise(&fdf, &mlx, &img);
 	if (!parsing_map(&fdf, argv[1]))
 	{
-		printf("Error Parsing Map");
+		printf("error arsing map");
 		return (0);
 	}
 	fdf.x_origin = - ((img.width / fdf.zoom) - fdf.x_max) / 2;
