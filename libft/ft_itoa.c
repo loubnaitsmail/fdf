@@ -6,7 +6,7 @@
 /*   By: litsmail <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:27:09 by litsmail          #+#    #+#             */
-/*   Updated: 2020/12/12 17:10:57 by litsmail         ###   ########.fr       */
+/*   Updated: 2021/10/03 00:58:28 by litsmail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_filltab(int size, long nbr, int n, char *result)
 {
-	int i;
+	int	i;
 
 	i = size - 1;
 	while (i > 0)
@@ -50,7 +50,8 @@ char	*ft_itoa(int n)
 		tmp *= 10;
 		size++;
 	}
-	if (!(result = (char *)malloc(sizeof(char) * (size + 1))))
+	result = (char *)malloc(sizeof(char) * (size + 1));
+	if (!result)
 		return (NULL);
 	result[size] = '\0';
 	return (ft_filltab(size, nbr, n, result));

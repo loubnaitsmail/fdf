@@ -6,7 +6,7 @@
 /*   By: litsmail <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:41:44 by litsmail          #+#    #+#             */
-/*   Updated: 2020/12/06 19:08:18 by litsmail         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:08:23 by litsmail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
-	if (!(copy = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1)))
+	copy = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	if (!copy)
 		return (NULL);
 	while (s1[i])
 	{

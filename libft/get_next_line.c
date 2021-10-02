@@ -6,12 +6,11 @@
 /*   By: litsmail <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:21:05 by litsmail          #+#    #+#             */
-/*   Updated: 2021/08/29 20:05:31 by litsmail         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:15:07 by litsmail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 #define BUFFER_SIZE 420
 
@@ -65,10 +64,11 @@ int	read_last(char **line, char *save_buf)
 int	read_func(int fd, char **line, int res)
 {
 	long long int		size_buf;
-	static	char		*save_buf;
-	static	char		buf[BUFFER_SIZE + 1];
-
-	while ((size_buf = read(fd, buf, BUFFER_SIZE)) > 0)
+	static char		*save_buf;
+	static char		buf[BUFFER_SIZE + 1];
+	
+	size_buf = read(fd, buf, BUFFER_SIZE);
+	while (size_buf > 0)
 	{
 		buf[size_buf] = '\0';
 		if (save_buf == NULL)

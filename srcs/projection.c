@@ -6,7 +6,7 @@
 /*   By: litsmail <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 19:47:25 by litsmail          #+#    #+#             */
-/*   Updated: 2021/10/02 22:43:35 by litsmail         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:16:42 by litsmail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
@@ -19,7 +19,7 @@ void	iso(t_point *p)
 	previous_x = p->x;
 	previous_y = p->y;
 	p->x = (previous_x - previous_y) * cos(0.523599);
-	p->y = - p->z + (previous_x + previous_y) * sin(0.523599);
+	p->y = -p->z + (previous_x + previous_y) * sin(0.523599);
 }
 
 void	change_to_iso(t_fdf *fdf)

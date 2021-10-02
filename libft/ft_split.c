@@ -6,7 +6,7 @@
 /*   By: litsmail <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:38:47 by litsmail          #+#    #+#             */
-/*   Updated: 2020/12/12 17:27:09 by litsmail         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:02:33 by litsmail         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static char	*duplicate(char *str, int nbr_caracters)
 	char	*dest;
 
 	i = 0;
-	if (!(dest = (char *)malloc(sizeof(char) * (nbr_caracters + 1))))
+	dest = (char *)malloc(sizeof(char) * (nbr_caracters + 1));
+	if (!dest)
 		return (NULL);
 	while (str[i] && i < nbr_caracters)
 	{
@@ -81,13 +82,14 @@ static char	**fill_tab(char **final_str, char *str, char c, int size)
 	return (final_str);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		words;
 	char	**final_str;
 
 	words = count_words((char *)s, c);
-	if (!(final_str = (char **)malloc(sizeof(char *) * (words + 1))))
+	final_str = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!final_str)
 		return (NULL);
 	final_str = fill_tab(final_str, (char *)s, c, words);
 	final_str[words] = 0;
